@@ -11,7 +11,7 @@ struct arma {
 struct jogador {
 	int nivel;
 	int vida = 600;
-	std::string armaj = "espada";
+	arma armaj;
 };
 
 struct inimigo {
@@ -22,16 +22,16 @@ struct inimigo {
 
 struct fase {
 	std::string nome;
-	inimigo inimigos[5];
+	inimigo I[5];
 };
 
-void EntrandoNaFase(fase F){
+void EntrandoNaFase(fase F) {
 	std::cout << "*******************************" << std::endl;
 	std::cout << "Entrando no " << F.nome << "..." << std::endl;
 	std::cout << "" << std::endl;
 }
 
-void inimigoAtacou(inimigo I) {
+void Ataque() {
 
 	std::cout << "O inimigo " << I.nome << "te atacou com um " << I.armai.nome << "!" << std::endl;
 }
@@ -50,22 +50,22 @@ bool morreu(T1 n1 = 0)
 }
 
 template <typename T2>
-bool morreu(T2 n1, T2 n2)
+bool dano(T2 n1, T2 n2)
 {
-	if (n1 >= 0)
+	int  dano1 = 0;
+
+	while (n1 >= 0)
 	{
-		return true; // vivo
-	}
-	else
-	{
-		return false; // morto
+
 	}
 }
 
 int main() {
+
+
 	fase F;
 	F.nome = "Deserto do Saara";
-	F.inimigos[5];
+	F.I[5];
 
 	arma A[5];
 	A[0].nome = "Canivete ";
@@ -73,42 +73,46 @@ int main() {
 	A[0].danoMin = 1;
 
 	A[1].nome = "Machado ";
-	A[1].danoMax = 10;
+	A[1].danoMax = 15;
 	A[1].danoMin = 5;
 
 	A[2].nome = "Arco e flecha ";
-	A[2].danoMax = 15;
+	A[2].danoMax = 20;
 	A[2].danoMin = 10;
 
 	A[3].nome = "Pistola";
-	A[3].danoMax = 20;
-	A[3].danoMin = 15;
+	A[3].danoMax = 30;
+	A[3].danoMin = 10;
 
 	A[4].nome = "Espada ";
-	A[4].danoMax = 30;
-	A[4].danoMin = 20;
+	A[4].danoMax = 25;
+	A[4].danoMin = 15;
 
-	inimigo I[5];
-	I[0].vida = 100;
-	I[0].nome = "Golem ";
-	I[0].armai.nome = "Canivete";
+	
+	F.I[0].vida = 200;
+	F.I[0].nome = "Golem ";
+	F.I[0].armai = A[0];;
 
-	I[1].nome = "Arara ";
-	I[1].armai.nome = "Machado ";
+	F.I[1].vida = 25;
+	F.I[1].nome = "Arara ";
+	F.I[1].armai = A[1];;
 
-	I[2].nome = "Bandido ";
-	I[2].armai.nome = "Arco e flecha ";
+	F.I[2].vida = 60;
+	F.I[2].nome = "Homem macaco ";
+	F.I[2].armai = A[2];;
 
-	I[3].nome = "Coveiro ";
-	I[3].armai.nome = "Pistola ";
+	F.I[3].vida = 100;
+	F.I[3].nome = "Coveiro ";
+	F.I[3].armai = A[3];
 
-	I[4].nome = "Pedreiro ";
-	I[4].armai.nome = "Espada ";
+	F.I[4].vida = 120;
+	F.I[4].nome = "Pedreiro ";
+	F.I[4].armai = A[4];
 
 	jogador debora;
-	debora.armaj;
-		
-	EntrandoNaFase(F);
-	inimigoAtacou(I[0]);
+	debora.armaj = A[3];
 
+	EntrandoNaFase(F);
+	inimigoAtacou([0]);
+	dano()
 }
