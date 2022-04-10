@@ -1,11 +1,9 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 
 struct arma {
-	string nome;
+	std::string nome;
 	int danoMax;
 	int danoMin;
 };
@@ -13,40 +11,35 @@ struct arma {
 struct jogador {
 	int nivel;
 	int vida = 600;
-	arma arma;
+	std::string armaj = "espada";
 };
+
 struct inimigo {
-	string nome;
+	std::string nome;
 	int vida = 100;
-	arma arma;
+	arma armai;
 };
 
 struct fase {
-	string nome;
+	std::string nome;
 	inimigo inimigos[5];
 };
 
-
-
-void inimigoAtacou(arma A, jogador) {
-
-	
-
-
-
-
-
-	cout << "O inimigo " << I[0].nome << "te atacou com um " << A[0].arma;
+void EntrandoNaFase(fase F){
+	std::cout << "*******************************" << std::endl;
+	std::cout << "Entrando no " << F.nome << "..." << std::endl;
+	std::cout << "" << std::endl;
 }
 
+void inimigoAtacou(inimigo I) {
 
-	
+	std::cout << "O inimigo " << I.nome << "te atacou com um " << I.armai.nome << "!" << std::endl;
+}
 
-
-template <typename T>
-T morreu(T jogador)
+template <typename T1>
+bool morreu(T1 n1 = 0)
 {
-	if (jogador.vida > 0)
+	if (n1 >= 0)
 	{
 		return true; // vivo
 	}
@@ -56,11 +49,10 @@ T morreu(T jogador)
 	}
 }
 
-
-template <typename T>
-T morreu(T inimigo)
+template <typename T2>
+bool morreu(T2 n1, T2 n2)
 {
-	if (inimigo.vida > 0)
+	if (n1 >= 0)
 	{
 		return true; // vivo
 	}
@@ -69,13 +61,11 @@ T morreu(T inimigo)
 		return false; // morto
 	}
 }
-
-
 
 int main() {
 	fase F;
 	F.nome = "Deserto do Saara";
-	F.inimigos = inimigoAtacou(arma A{});
+	F.inimigos[5];
 
 	arma A[5];
 	A[0].nome = "Canivete ";
@@ -100,45 +90,25 @@ int main() {
 
 	inimigo I[5];
 	I[0].vida = 100;
-	I[0].nome = "Golem";
-	I[0].arma = "Canivete";
+	I[0].nome = "Golem ";
+	I[0].armai.nome = "Canivete";
 
 	I[1].nome = "Arara ";
-	I[1].arma = "Machado ";
+	I[1].armai.nome = "Machado ";
 
 	I[2].nome = "Bandido ";
-	I[2].arma = "Arco e flecha ";
+	I[2].armai.nome = "Arco e flecha ";
 
 	I[3].nome = "Coveiro ";
-	I[3].arma = "Pistola ";
+	I[3].armai.nome = "Pistola ";
 
 	I[4].nome = "Pedreiro ";
-	I[4].arma = "Espada ";
+	I[4].armai.nome = "Espada ";
 
 	jogador debora;
-	debora.arma 
-
-	std::string resposta;
-	cout << "************************************************************************************";
-	cout << "Seja bem-vindo ao RPG Around The World, onde cada fase se passa num ponto turistico! " << endl;
-	cout << "Deseja iniciar o jogo? (sim) ou (nao) - digite em minusculo. " << endl;
-	cin >> resposta;
-
-	
-		inimigoAtacou(arma A{})
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
+	debora.armaj;
+		
+	EntrandoNaFase(F);
+	inimigoAtacou(I[0]);
 
 }
