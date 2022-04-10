@@ -1,11 +1,14 @@
 #include <iostream>
 #include <string>
+#include <time.h>
+#include <stdlib.h>
 
 
 struct arma {
 	std::string nome;
 	int danoMax;
 	int danoMin;
+
 };
 
 struct jogador {
@@ -25,43 +28,73 @@ struct fase {
 	inimigo I[5];
 };
 
-void EntrandoNaFase(fase F) {
+template <typename T>
+T danoRand(T n1, T n2)
+{
+	int a = 0;
+	while (a > n2 or a < n1) {
+		// a função rand() gera um inteiro aleatório
+		a = (n1 + (rand() % n2));
+	}
+	return a;
+}
+
+
+void EntrandoNaFase(fase F){
 	std::cout << "*******************************" << std::endl;
 	std::cout << "Entrando no " << F.nome << "..." << std::endl;
 	std::cout << "" << std::endl;
 }
 
-void Ataque() {
-
-	std::cout << "O inimigo " << I.nome << "te atacou com um " << I.armai.nome << "!" << std::endl;
-}
-
 template <typename T1>
 bool morreu(T1 n1 = 0)
 {
-	if (n1 >= 0)
+	if (n1 <= 0)
 	{
-		return true; // vivo
+		return true; // morto
 	}
 	else
 	{
-		return false; // morto
+		return false; // vivo
 	}
 }
 
-template <typename T2>
-bool dano(T2 n1, T2 n2)
-{
-	int  dano1 = 0;
+bool inimigoAtacou(arma A[], fase F[], jogador debora) {
 
-	while (n1 >= 0)
-	{
+	int vidaAtualizada, vidaInimigo;
+	bool vivoJogador, vivoInimigo;
 
+	for (int i = 0; i < 5;) {
+		debora.vida = debora.vida - danoRand(A[0].danoMin, A[0].danoMax);
+		F.I[i].vida = F.I[i].vida - danoRand(A[3].danoMin, A[3].danoMax);
+
+		std::cout << "Voce atacou " << F.I[i].nome << " com sua " << debora.armaj.nome << " e causou " << danoRand(A[3].danoMin, A[3].danoMax) << "de dano.";
+		std::cout << "O inimigo agora esta com " << F.I[i].vida << "de vida.";
+		vivoInimigo = morreu(F.I[i].vida);
+
+		if (vivoInimigo = true) {
+			i++;
+		}
+
+		std::cout << "O inimigo " << F.I.nome << " te atacou com um " << F.I.armai.nome << "!" << std::endl;
+		std::cout << "Ele te deu " << danoRand(A[0].danoMin, A[0].danoMax) << " de dano.";
+
+		std::cout << "agora voce esta com " << debora.vida << "de vida" << std::endl;
+		vivoJogador = morreu(debora.vida);
+		std::cout << "" << std::endl;
+
+		if (vivoJogador = true) {
+			i = 5;
+			return true;
+		}
 	}
 }
 
 int main() {
 
+	srand(time(NULL));
+
+	bool end;
 
 	fase F;
 	F.nome = "Deserto do Saara";
@@ -89,19 +122,19 @@ int main() {
 	A[4].danoMin = 15;
 
 	
-	F.I[0].vida = 200;
+	F.I[0].vida = 100;
 	F.I[0].nome = "Golem ";
-	F.I[0].armai = A[0];;
+	F.I[0].armai = A[0];
 
-	F.I[1].vida = 25;
+	F.I[1].vida = 30;
 	F.I[1].nome = "Arara ";
-	F.I[1].armai = A[1];;
+	F.I[1].armai = A[1];
 
-	F.I[2].vida = 60;
-	F.I[2].nome = "Homem macaco ";
-	F.I[2].armai = A[2];;
+	F.I[2].vida = 80;
+	F.I[2].nome = "Bandido ";
+	F.I[2].armai = A[2];
 
-	F.I[3].vida = 100;
+	F.I[3].vida = 60;
 	F.I[3].nome = "Coveiro ";
 	F.I[3].armai = A[3];
 
@@ -109,10 +142,18 @@ int main() {
 	F.I[4].nome = "Pedreiro ";
 	F.I[4].armai = A[4];
 
+
 	jogador debora;
 	debora.armaj = A[3];
-
+		
 	EntrandoNaFase(F);
-	inimigoAtacou([0]);
-	dano()
+	end = inimigoAtacou(A, F, debora);
+	if (end = true) {
+		std::cout << "Game Over" << std::endl;
+		return 0;
+	}
+	else {
+		std::cout << "Voce venceu!" << std::endl;
+		return 0;
+	}
 }
