@@ -39,7 +39,6 @@ T danoRand(T n1, T n2)
 	return a;
 }
 
-
 void EntrandoNaFase(fase F){
 	std::cout << "*******************************" << std::endl;
 	std::cout << "Entrando no " << F.nome << "..." << std::endl;
@@ -66,17 +65,17 @@ bool inimigoAtacou(arma A[], fase F[], jogador debora) {
 
 	for (int i = 0; i < 5;) {
 		debora.vida = debora.vida - danoRand(A[0].danoMin, A[0].danoMax);
-		F.I[i].vida = F.I[i].vida - danoRand(A[3].danoMin, A[3].danoMax);
+		F->I[i].vida = F->I[i].vida - danoRand(A[3].danoMin, A[3].danoMax);
 
-		std::cout << "Voce atacou " << F.I[i].nome << " com sua " << debora.armaj.nome << " e causou " << danoRand(A[3].danoMin, A[3].danoMax) << "de dano.";
-		std::cout << "O inimigo agora esta com " << F.I[i].vida << "de vida.";
-		vivoInimigo = morreu(F.I[i].vida);
+		std::cout << "Voce atacou " << F->I[i].nome << " com sua " << debora.armaj.nome << " e causou " << danoRand(A[3].danoMin, A[3].danoMax) << "de dano.";
+		std::cout << "O inimigo agora esta com " << F->I[i].vida << "de vida.";
+		vivoInimigo = morreu(F->I[i].vida);
 
 		if (vivoInimigo = true) {
 			i++;
 		}
 
-		std::cout << "O inimigo " << F.I.nome << " te atacou com um " << F.I.armai.nome << "!" << std::endl;
+		std::cout << "O inimigo " << F->I->nome << " te atacou com um " << F->I->armai.nome << "!" << std::endl;
 		std::cout << "Ele te deu " << danoRand(A[0].danoMin, A[0].danoMax) << " de dano.";
 
 		std::cout << "agora voce esta com " << debora.vida << "de vida" << std::endl;
