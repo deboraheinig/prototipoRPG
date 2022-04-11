@@ -1,8 +1,5 @@
 #include <iostream>
-#include <string>
 #include <time.h>
-#include <stdlib.h>
-
 
 struct arma {
 	std::string nome;
@@ -144,9 +141,9 @@ int main() {
 
 	jogador debora;
 	debora.armaj = A[3];
-		
+
 	EntrandoNaFase(F);
-	end = inimigoAtacou(A, F, debora);
+	end = inimigoAtacou(A, &F, debora);
 	if (end = true) {
 		std::cout << "Game Over" << std::endl;
 		return 0;
