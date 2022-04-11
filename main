@@ -5,11 +5,10 @@ struct arma {
 	std::string nome;
 	int danoMax;
 	int danoMin;
-
 };
 
 struct jogador {
-	int nivel;
+	int nivel = 0;
 	int vida = 600;
 	arma armaj;
 };
@@ -36,7 +35,7 @@ T danoRand(T n1, T n2)
 	return a;
 }
 
-void EntrandoNaFase(fase F){
+void EntrandoNaFase(fase F) {
 	std::cout << "*******************************" << std::endl;
 	std::cout << "Entrando no " << F.nome << "..." << std::endl;
 	std::cout << "" << std::endl;
@@ -45,44 +44,43 @@ void EntrandoNaFase(fase F){
 template <typename T1>
 bool morreu(T1 n1 = 0)
 {
-	if (n1 <= 0)
-	{
-		return true; // morto
-	}
-	else
-	{
-		return false; // vivo
-	}
+	if (n1 <= 0)return true; // morto
+	else return false; // vivo
 }
 
 bool inimigoAtacou(arma A[], fase F[], jogador debora) {
 
-	int vidaAtualizada, vidaInimigo;
+	int vidaAtualizada, vidaInimigo, i = 0;
 	bool vivoJogador, vivoInimigo;
 
-	for (int i = 0; i < 5;) {
-		debora.vida = debora.vida - danoRand(A[0].danoMin, A[0].danoMax);
+	while (i < 5 and debora.vida > 0) {
+		debora.vida = debora.vida - danoRand(A[i].danoMin, A[i].danoMax);
 		F->I[i].vida = F->I[i].vida - danoRand(A[3].danoMin, A[3].danoMax);
 
-		std::cout << "Voce atacou " << F->I[i].nome << " com sua " << debora.armaj.nome << " e causou " << danoRand(A[3].danoMin, A[3].danoMax) << "de dano.";
-		std::cout << "O inimigo agora esta com " << F->I[i].vida << "de vida.";
+		std::cout << " \nVoce atacou " << F->I[i].nome << " com sua " << debora.armaj.nome << " e causou " << danoRand(A[3].danoMin, A[3].danoMax) << " de dano.\n";
 		vivoInimigo = morreu(F->I[i].vida);
 
-		if (vivoInimigo = true) {
+		if (vivoInimigo == true){
 			i++;
+			std::cout << " Inimigo morreu \n" << std::endl;
+		}
+		else{
+			std::cout << " O inimigo agora esta com " << F->I[i].vida << "de vida.";
 		}
 
-		std::cout << "O inimigo " << F->I->nome << " te atacou com um " << F->I->armai.nome << "!" << std::endl;
-		std::cout << "Ele te deu " << danoRand(A[0].danoMin, A[0].danoMax) << " de dano.";
-
-		std::cout << "agora voce esta com " << debora.vida << "de vida" << std::endl;
+		std::cout << "\n O inimigo " << F->I[i].nome << " te atacou com um " << F->I[i].armai.nome << "!" << std::endl;
+		std::cout << "\n Ele te deu " << danoRand(A[i].danoMin, A[i].danoMax) << " de dano.";
 		vivoJogador = morreu(debora.vida);
 		std::cout << "" << std::endl;
 
-		if (vivoJogador = true) {
+		if (vivoJogador == true) {
 			i = 5;
 			return true;
 		}
+		else {
+			std::cout << "\n Agora voce esta com " << debora.vida << "de vida" << std::endl;
+		}
+
 	}
 }
 
@@ -94,7 +92,6 @@ int main() {
 
 	fase F;
 	F.nome = "Deserto do Saara";
-	F.I[5];
 
 	arma A[5];
 	A[0].nome = "Canivete ";
@@ -117,7 +114,7 @@ int main() {
 	A[4].danoMax = 25;
 	A[4].danoMin = 15;
 
-	
+
 	F.I[0].vida = 100;
 	F.I[0].nome = "Golem ";
 	F.I[0].armai = A[0];
@@ -144,7 +141,7 @@ int main() {
 
 	EntrandoNaFase(F);
 	end = inimigoAtacou(A, &F, debora);
-	if (end = true) {
+	if (end == true) {
 		std::cout << "Game Over" << std::endl;
 		return 0;
 	}
