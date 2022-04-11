@@ -36,9 +36,9 @@ T danoRand(T n1, T n2)
 }
 
 void EntrandoNaFase(fase F) {
-	std::cout << "*******************************" << std::endl;
-	std::cout << "Entrando no " << F.nome << "..." << std::endl;
-	std::cout << "" << std::endl;
+	std::cout << "*===================================*" << std::endl;
+	std::cout << "|  Entrando no " << F.nome << "...  |" << std::endl;
+	std::cout << "*===================================*" << std::endl;
 }
 
 template <typename T1>
@@ -60,15 +60,18 @@ bool inimigoAtacou(arma A[], fase F[], jogador debora) {
 		std::cout << " \nVoce atacou " << F->I[i].nome << " com sua " << debora.armaj.nome << " e causou " << danoRand(A[3].danoMin, A[3].danoMax) << " de dano.\n";
 		vivoInimigo = morreu(F->I[i].vida);
 
-		if (vivoInimigo == true){
+		if (vivoInimigo == true) {
 			i++;
-			std::cout << " Inimigo morreu \n" << std::endl;
+			std::cout << " *===============*" << std::endl;
+			std::cout << " | Inimigo morto | " << std::endl;
+			std::cout << " *===============*" << std::endl;
 		}
-		else{
-			std::cout << " O inimigo agora esta com " << F->I[i].vida << "de vida.";
+		else {
+			std::cout << " -> O inimigo agora esta com " << F->I[i].vida << " de vida.";
+			std::cout << "" << std::endl;
 		}
 
-		std::cout << "\n O inimigo " << F->I[i].nome << " te atacou com um " << F->I[i].armai.nome << "!" << std::endl;
+		std::cout << "\n O inimigo " << F->I[i].nome << " te atacou com um " << F->I[i].armai.nome << "!";
 		std::cout << "\n Ele te deu " << danoRand(A[i].danoMin, A[i].danoMax) << " de dano.";
 		vivoJogador = morreu(debora.vida);
 		std::cout << "" << std::endl;
@@ -78,9 +81,8 @@ bool inimigoAtacou(arma A[], fase F[], jogador debora) {
 			return true;
 		}
 		else {
-			std::cout << "\n Agora voce esta com " << debora.vida << "de vida" << std::endl;
+			std::cout << "\n -> Agora voce esta com " << debora.vida << " de vida." << std::endl;
 		}
-
 	}
 }
 
@@ -94,15 +96,15 @@ int main() {
 	F.nome = "Deserto do Saara";
 
 	arma A[5];
-	A[0].nome = "Canivete ";
+	A[0].nome = "Canivete";
 	A[0].danoMax = 5;
 	A[0].danoMin = 1;
 
-	A[1].nome = "Machado ";
+	A[1].nome = "Machado";
 	A[1].danoMax = 15;
 	A[1].danoMin = 5;
 
-	A[2].nome = "Arco e flecha ";
+	A[2].nome = "Arco e flecha";
 	A[2].danoMax = 20;
 	A[2].danoMin = 10;
 
@@ -110,29 +112,29 @@ int main() {
 	A[3].danoMax = 30;
 	A[3].danoMin = 10;
 
-	A[4].nome = "Espada ";
+	A[4].nome = "Espada";
 	A[4].danoMax = 25;
 	A[4].danoMin = 15;
 
 
 	F.I[0].vida = 100;
-	F.I[0].nome = "Golem ";
+	F.I[0].nome = "Golem";
 	F.I[0].armai = A[0];
 
 	F.I[1].vida = 30;
-	F.I[1].nome = "Arara ";
+	F.I[1].nome = "Arara";
 	F.I[1].armai = A[1];
 
 	F.I[2].vida = 80;
-	F.I[2].nome = "Bandido ";
+	F.I[2].nome = "Bandido";
 	F.I[2].armai = A[2];
 
 	F.I[3].vida = 60;
-	F.I[3].nome = "Coveiro ";
+	F.I[3].nome = "Coveiro";
 	F.I[3].armai = A[3];
 
 	F.I[4].vida = 120;
-	F.I[4].nome = "Pedreiro ";
+	F.I[4].nome = "Pedreiro";
 	F.I[4].armai = A[4];
 
 
@@ -141,6 +143,7 @@ int main() {
 
 	EntrandoNaFase(F);
 	end = inimigoAtacou(A, &F, debora);
+
 	if (end == true) {
 		std::cout << "Game Over" << std::endl;
 		return 0;
@@ -149,4 +152,5 @@ int main() {
 		std::cout << "Voce venceu!" << std::endl;
 		return 0;
 	}
+
 }
