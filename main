@@ -50,14 +50,16 @@ bool morreu(T1 n1 = 0)
 
 bool inimigoAtacou(arma A[], fase F[], jogador debora) {
 
-	int vidaAtualizada, vidaInimigo, i = 0;
+	int vidaAtualizada, vidaInimigo, DJ = 0, DI = 0;
 	bool vivoJogador, vivoInimigo;
 
-	while (i < 5 and debora.vida > 0) {
-		debora.vida = debora.vida - danoRand(A[i].danoMin, A[i].danoMax);
-		F->I[i].vida = F->I[i].vida - danoRand(A[3].danoMin, A[3].danoMax);
+	for (int i = 0; i < 5;) {
+		DI = danoRand(A[i].danoMin, A[i].danoMax);
+		DJ = danoRand(A[3].danoMin, A[3].danoMax);
+		debora.vida = debora.vida - DI;
+		F->I[i].vida = F->I[i].vida - DJ;
 
-		std::cout << " \nVoce atacou " << F->I[i].nome << " com sua " << debora.armaj.nome << " e causou " << danoRand(A[3].danoMin, A[3].danoMax) << " de dano.\n";
+		std::cout << " \nVoce atacou " << F->I[i].nome << " com sua " << debora.armaj.nome << " e causou " << DJ << " de dano.\n";
 		vivoInimigo = morreu(F->I[i].vida);
 
 		if (vivoInimigo == true) {
@@ -66,19 +68,25 @@ bool inimigoAtacou(arma A[], fase F[], jogador debora) {
 			std::cout << " | Inimigo morto | " << std::endl;
 			std::cout << " *===============*" << std::endl;
 		}
+		if (i == 5) {
+
+
+			return false;
+
+		}
 		else {
 			std::cout << " -> O inimigo agora esta com " << F->I[i].vida << " de vida.";
 			std::cout << "" << std::endl;
 		}
 
 		std::cout << "\n O inimigo " << F->I[i].nome << " te atacou com um " << F->I[i].armai.nome << "!";
-		std::cout << "\n Ele te deu " << danoRand(A[i].danoMin, A[i].danoMax) << " de dano.";
+		std::cout << "\n Ele te deu " << DI << " de dano.";
 		vivoJogador = morreu(debora.vida);
 		std::cout << "" << std::endl;
 
 		if (vivoJogador == true) {
 			i = 5;
-			return true;
+			return vivoJogador;
 		}
 		else {
 			std::cout << "\n -> Agora voce esta com " << debora.vida << " de vida." << std::endl;
@@ -149,7 +157,8 @@ int main() {
 		return 0;
 	}
 	else {
-		std::cout << "Voce venceu!" << std::endl;
+		std::cout << "" << std::endl;
+		std::cout << "Parabens, voce venceu!" << std::endl;
 		return 0;
 	}
 
