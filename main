@@ -8,21 +8,45 @@ struct arma {
 };
 
 struct jogador {
-	int nivel = 0;
-	int vida = 600;
-	arma armaj;
+	int nivel;
+	int vida;
+	arma arma;
 };
 
 struct inimigo {
 	std::string nome;
-	int vida = 100;
-	arma armai;
+	int vida;
+	arma arma;
 };
 
 struct fase {
 	std::string nome;
-	inimigo I[5];
+	inimigo inimigos[5];
 };
+
+//Template para definir se o personagem morreu
+template <typename T>
+bool morreu(T personagem)
+{
+	if (personagem.vida < 0) {
+		return true; // morto
+	}
+	else {
+		return false; // vivo
+	}
+}
+
+//Template para definir o dano gerado
+template<typename Tata, typename Tdef>
+Tdef ataque(Tata atacante, Tdef defensor) {
+	//2 - 5
+	int intervalo_dano = atacante.arma.danoMax - atacante.arma.danoMin + 1;
+	int dano = atacante.arma.danoMin + rand() % intervalo_dano;
+
+	defensor.vida = defensor.vida - dano;
+
+	return defensor;
+}
 
 template <typename T>
 T danoRand(T n1, T n2)
@@ -35,73 +59,47 @@ T danoRand(T n1, T n2)
 	return a;
 }
 
-void EntrandoNaFase(fase F) {
+
+void jogar_fase(jogador jog, fase fase) {
 	std::cout << "*===================================*" << std::endl;
-	std::cout << "|  Entrando no " << F.nome << "...  |" << std::endl;
+	std::cout << "|  Entrando no " << fase.nome << "...  |" << std::endl;
 	std::cout << "*===================================*" << std::endl;
-}
 
-template <typename T1>
-bool morreu(T1 n1 = 0)
-{
-	if (n1 <= 0)return true; // morto
-	else return false; // vivo
-}
+	for (int atual = 0; atual < 5; atual++) {
+		while (!morreu(fase.inimigos[atual])) {
+			jog = ataque(fase.inimigos[atual], jog);
+			fase.inimigos[atual] = ataque(jog, fase.inimigos[atual]);
 
-bool inimigoAtacou(arma A[], fase F[], jogador debora) {
-
-	int vidaAtualizada, vidaInimigo, DJ = 0, DI = 0;
-	bool vivoJogador, vivoInimigo;
-
-	for (int i = 0; i < 5;) {
-		DI = danoRand(A[i].danoMin, A[i].danoMax);
-		DJ = danoRand(A[3].danoMin, A[3].danoMax);
-		debora.vida = debora.vida - DI;
-		F->I[i].vida = F->I[i].vida - DJ;
-
-		std::cout << " \nVoce atacou " << F->I[i].nome << " com sua " << debora.armaj.nome << " e causou " << DJ << " de dano.\n";
-		vivoInimigo = morreu(F->I[i].vida);
-
-		if (vivoInimigo == true) {
-			i++;
-			std::cout << " *===============*" << std::endl;
-			std::cout << " | Inimigo morto | " << std::endl;
-			std::cout << " *===============*" << std::endl;
-		}
-		if (i == 5) {
-
-
-			return false;
-
-		}
-		else {
-			std::cout << " -> O inimigo agora esta com " << F->I[i].vida << " de vida.";
+			std::cout << "O inimigo " << fase.inimigos[atual].nome << " te atacou com um(a) " << fase.inimigos[atual].arma.nome << "." << std::endl;
+			std::cout << "Vida jogador: " << jog.vida << std::endl;
+			std::cout << "Voce atacou " << fase.inimigos[atual].nome << " com sua " << fase.inimigos[4].arma.nome << "." << std::endl;
+			std::cout << "Vida inimigo: " << fase.inimigos[atual].vida << std::endl;
 			std::cout << "" << std::endl;
+
+			if (morreu(jog)) {
+				std::cout << "O jogador morreu, o jogo acabou";
+				std::cout << "*=======*" << std::endl;
+				std::cout << "GAME OVER";
+				std::cout << "*=======*" << std::endl;
+				return;
+			}
 		}
 
-		std::cout << "\n O inimigo " << F->I[i].nome << " te atacou com um " << F->I[i].armai.nome << "!";
-		std::cout << "\n Ele te deu " << DI << " de dano.";
-		vivoJogador = morreu(debora.vida);
-		std::cout << "" << std::endl;
-
-		if (vivoJogador == true) {
-			i = 5;
-			return vivoJogador;
-		}
-		else {
-			std::cout << "\n -> Agora voce esta com " << debora.vida << " de vida." << std::endl;
-		}
+		std::cout << fase.inimigos[atual].nome << " foi morto." << std::endl << std::endl;
 	}
+	std::cout << "*============================*" << std::endl;
+	std::cout << "Parabens, voce passou de fase!" << std::endl;
+	std::cout << "*============================*" << std::endl;
 }
+
 
 int main() {
 
 	srand(time(NULL));
 
-	bool end;
 
-	fase F;
-	F.nome = "Deserto do Saara";
+	fase fase;
+	fase.nome = "Deserto do Saara";
 
 	arma A[5];
 	A[0].nome = "Canivete";
@@ -125,41 +123,30 @@ int main() {
 	A[4].danoMin = 15;
 
 
-	F.I[0].vida = 100;
-	F.I[0].nome = "Golem";
-	F.I[0].armai = A[0];
+	fase.inimigos[0].vida = 100;
+	fase.inimigos[0].nome = "Golem";
+	fase.inimigos[0].arma = A[0];
 
-	F.I[1].vida = 30;
-	F.I[1].nome = "Arara";
-	F.I[1].armai = A[1];
+	fase.inimigos[1].vida = 30;
+	fase.inimigos[1].nome = "Arara";
+	fase.inimigos[1].arma = A[1];
 
-	F.I[2].vida = 80;
-	F.I[2].nome = "Bandido";
-	F.I[2].armai = A[2];
+	fase.inimigos[2].vida = 80;
+	fase.inimigos[2].nome = "Bandido";
+	fase.inimigos[2].arma = A[2];
 
-	F.I[3].vida = 60;
-	F.I[3].nome = "Coveiro";
-	F.I[3].armai = A[3];
+	fase.inimigos[3].vida = 60;
+	fase.inimigos[3].nome = "Coveiro";
+	fase.inimigos[3].arma = A[3];
 
-	F.I[4].vida = 120;
-	F.I[4].nome = "Pedreiro";
-	F.I[4].armai = A[4];
+	fase.inimigos[4].vida = 120;
+	fase.inimigos[4].nome = "Pedreiro";
+	fase.inimigos[4].arma = A[4];
 
 
-	jogador debora;
-	debora.armaj = A[3];
+	jogador jog = { 1, 400, A[4]};
+	jog.arma = A[4];
 
-	EntrandoNaFase(F);
-	end = inimigoAtacou(A, &F, debora);
-
-	if (end == true) {
-		std::cout << "Game Over" << std::endl;
-		return 0;
-	}
-	else {
-		std::cout << "" << std::endl;
-		std::cout << "Parabens, voce venceu!" << std::endl;
-		return 0;
-	}
-
+	jogar_fase(jog, fase);
+	
 }
